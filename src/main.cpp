@@ -12,6 +12,7 @@
 
 #include "loadbalancer.h"
 #include "request.h"
+#include <fstream>
 #include <iostream>
 
 /**
@@ -43,10 +44,19 @@ int main() {
     load_balancer.queueRequest(request);
   }
 
+  //   write queue size to log file
+  std::ofstream logFile;
+  logFile.open("log.txt");
+  logFile << "Queue size: " << load_balancer.getRequestQueueSize() << std::endl;
+
   for (int i = 0; i < load_balancer.getSimulationTime(); i++) {
     // Add a new request to the queue at random times.
-    if (rand() % 100 < 30) {
+    if (rand() % 100 < 1) {
       Request request(load_balancer.getRequestQueueSize(), rand() % 100);
+      //   log request to file
+      logFile << "Request ID: " << request.getRequestID() << std::endl;
+      //   log request time to file
+      logFile << "Request Time: " << request.getTime() << std::endl;
       load_balancer.queueRequest(request);
     }
 
@@ -64,6 +74,9 @@ int main() {
     // update the current time
     load_balancer.incrementCurrentTime();
   }
+
+  //   write queue size to log file
+  logFile << "Queue size: " << load_balancer.getRequestQueueSize() << std::endl;
 
   return 0;
 }
