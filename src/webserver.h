@@ -88,6 +88,16 @@ public:
     // Get the request processing time.
     return requestTime;
   }
+
+  /**
+   * @brief Returns the status of the server.
+   *
+   * @return bool The status of the server.
+   */
+  bool isActive() {
+    // Get the status of the server (active/inactive).
+    return active;
+  }
 };
 
 #endif
